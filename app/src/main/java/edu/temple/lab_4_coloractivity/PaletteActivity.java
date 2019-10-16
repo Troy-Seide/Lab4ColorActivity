@@ -21,25 +21,32 @@ public class PaletteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         final View v = findViewById(R.id.backgroundactivity);
         getSupportActionBar().setTitle("Palette Activity");
-        final String[] Colors= {"Blue", "Cyan", "Gray", "Green", "Magenta", "Red", "aqua", "purple", "maroon", "yellow"};
-        final ColorAdapter colorAdapter = new ColorAdapter(PaletteActivity.this, Colors);
-        final Spinner spin= (Spinner)findViewById(R.id.spinner);
+        //final String[] Colors= {"Blue", "Cyan", "Gray", "Green", "Magenta", "Red", "aqua", "purple", "maroon", "yellow"};
+        Resources res=getResources();
+        final String[] engcolors= res.getStringArray(R.array.engcolorarray);
+        final String[] spancolors=res.getStringArray(R.array.spancolorarray);
+        //final String[] Colors2= res.getStringArray(R.array.array2);
+        ColorAdapter colorAdapter = new ColorAdapter(this, engcolors, spancolors);
+        Spinner spin= (Spinner)findViewById(R.id.spinner);
         spin.setAdapter(colorAdapter);
         final ConstraintLayout backgroundcolor= (ConstraintLayout)findViewById(R.id.backgroundactivity);
         spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
-                backgroundcolor.setBackgroundColor(Color.parseColor((String) Colors[pos]));
+                backgroundcolor.setBackgroundColor(Color.parseColor((String) engcolors[pos]));
                 view.setBackgroundColor(Color.WHITE);
+
                 if(current_item==pos) {
                     return;
                 }
                 else {
                     Intent intent = new Intent(PaletteActivity.this, CanvasActivity.class);
-                    intent.putExtra("colorval", Colors[pos]);
+                    intent.putExtra("cv", engcolors[pos]);
                     startActivity(intent);
                 }
+
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
 
@@ -47,6 +54,9 @@ public class PaletteActivity extends AppCompatActivity {
 
         });
 
+
+
     }
 
 }
+
